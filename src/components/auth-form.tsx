@@ -6,9 +6,9 @@ import { z } from "zod";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "./ui/form";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { AuthContext } from "@/contexts/AuthContext";
 
 const formSchema = z.object({
   email: z
@@ -28,12 +28,12 @@ export default function AuthForm() {
     },
   });
 
-  const router = useRouter();
+  const { signIn } = useContext(AuthContext);
 
   const [passwordVisible, setPasswordVisible] = useState(false);
 
-  function handleSubmit(data: z.infer<typeof formSchema>) {
-    router.push("/dashboard");
+  async function handleSubmit(data: z.infer<typeof formSchema>) {
+    await signIn(data);
   }
 
   return (
