@@ -12,8 +12,4 @@
   body {
     @apply h-full bg-dark700 text-white font-normal md:text-[87.5%];
   }
-  :root {
-
-    --radius: 0.5rem
-  }
 }

@@ -3,8 +3,8 @@
 import { useToast } from "@/hooks/use-toast";
 import { api } from "@/services/api";
 import { redirect } from "next/navigation";
-import { createContext, ReactNode, useEffect, useState } from "react";
-import { destroyCookie, parseCookies, setCookie } from "nookies";
+import { createContext, ReactNode, useState } from "react";
+import { destroyCookie, setCookie } from "nookies";
 
 type UserProps = {
   id: string;
@@ -52,23 +52,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
     email: "",
     name: "",
   });
-
-  useEffect(() => {
-    const { session: token } = parseCookies();
-
-    if (token) {
-      api
-        .get("/userinfo")
-        .then((response) => {
-          const { id, name, email } = response.data;
-
-          setUser({ id, name, email });
-        })
-        .catch(() => {
-          signOut();
-        });
-    }
-  }, []);
 
   async function signIn({ email, password }: SignInProps) {
     try {
